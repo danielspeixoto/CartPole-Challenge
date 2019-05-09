@@ -9,7 +9,8 @@ num_actions = 2
 
 def model_decision(model):
     def decision(prev_obs):
-        return np.argmax(model.predict(prev_obs.reshape(-1, len(prev_obs), 1))[0])
+        prediction = model.predict([prev_obs])[0]
+        return prediction
     return decision
 
 def random_decision(environment):
@@ -31,7 +32,7 @@ def game(decide, visualize=False):
             action = env.action_space.sample()
         else:
             action = decide(prev_obs)
-        observation, reward, done, _ = env.step(action)
+        observation, reward, done, _ = env.step(int(round(action)))
         # The previous observation led to this action
         if len(prev_obs) > 0:
             memory.append([prev_obs, action])
@@ -43,30 +44,40 @@ def game(decide, visualize=False):
 
     return memory, score
 
-def populate(decide=random_decision(env), requirement=50, games=1000):
+def populate(decide=random_decision(env), requirement=50, max_results=-1):
     global_score = 0
-    training = []
-    for _ in range(games):
+    x = []
+    y = []
+    games = 0
+    done = False
+    while not done:
         memory, score = game(decide)
         global_score += score
+        games += 1
+        if games % 1000 == 0:
+            print("Num of games: " + str(games))
+            print("Results size: " + str(len(y)))
         if score >= requirement:
             for episode in memory:
-                output = np.zeros(num_actions)
-                output[episode[1]] = 1
-                training.append([episode[0], output])
+                x.append(episode[0])
+                y.append(episode[1])
+                if len(y) == max_results:
+                    done = True
+                    break
 
     average_score = global_score / games
-    print('Average Score:', average_score)
-    return training, average_score
+
+    return x, y, average_score
 
 def test(decide=random_decision(env), visualize=False, games=1000):
     global_score = 0
-    for _ in range(games):
+    for i in range(games):
+        if i % 10 == 0:
+            print("----Game " + str(i))
         _, score = game(decide)
         global_score += score
         if visualize:
             time.sleep(1)
 
     average_score = global_score / games
-    print('Average Score:', average_score)
     return average_score

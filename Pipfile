@@ -9,6 +9,9 @@ verify_ssl = true
 gym = "*"
 tflearn = "*"
 tensorflow = "*"
+scikit-learn = "*"
+validation = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.7"
