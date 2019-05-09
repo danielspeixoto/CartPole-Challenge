@@ -52,7 +52,6 @@ def populate(decide=random_decision(env), requirement=50, games=1000):
         if score >= requirement:
             for episode in memory:
                 output = np.zeros(num_actions)
-                # output = [0, 0]
                 output[episode[1]] = 1
                 training.append([episode[0], output])
 
@@ -63,7 +62,7 @@ def populate(decide=random_decision(env), requirement=50, games=1000):
 def test(decide=random_decision(env), visualize=False, games=1000):
     global_score = 0
     for _ in range(games):
-        memory, score = game(decide)
+        _, score = game(decide)
         global_score += score
         if visualize:
             time.sleep(1)

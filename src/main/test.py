@@ -5,12 +5,12 @@ import numpy as np
 env = gym.make("CartPole-v0")
 env.reset()
 goal_steps = 500
+num_games = 10
 
 def test(model):
-    # Testing
     scores = []
     choices = []
-    for each_game in range(10):
+    for each_game in range(num_games):
         score = 0
         game_memory = []
         prev_obs = []

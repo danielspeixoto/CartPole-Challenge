@@ -1,7 +1,6 @@
 import time
 
-from population import populate, test, model_decision
-from train import train_model
+from src.main.population import populate, test, model_decision
 
 
 training, average = populate(games=166)
@@ -17,6 +16,3 @@ for i in range(iterations):
 
 decide = model_decision(model)
 test(decide=decide, games=100, visualize=True)
-
-# model = train_model(child_population(model, 200), "b", model)
-# model = train_model(child_population(model, 200))
