@@ -49,9 +49,11 @@ def populate(decide=random_decision(env), requirement=50, max_results=-1):
     x = []
     y = []
     games = 0
+    scores = []
     done = False
     while not done:
         memory, score = game(decide)
+        scores.append(score)
         global_score += score
         games += 1
         if games % 1000 == 0:
@@ -67,12 +69,12 @@ def populate(decide=random_decision(env), requirement=50, max_results=-1):
 
     average_score = global_score / games
 
-    return x, y, average_score
+    return x, y, scores
 
 def test(decide=random_decision(env), visualize=False, games=1000):
     global_score = 0
     for i in range(games):
-        if i % 10 == 0:
+        if i % 250 == 0:
             print("----Game " + str(i))
         _, score = game(decide)
         global_score += score

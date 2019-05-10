@@ -33,13 +33,15 @@ algorithms = [
     },
 ]
 
-validations = [
-    lambda df, y, clf: validation.k_fold(10, df, y, clf),
-]
+validator = lambda df, y, clf: validation.k_fold(10, df, y, clf),
 
-def train(algorithm, df, y):
+
+def train(algorithm):
     run = Pipeline([
         ('clf', algorithm)
     ])
-    run.fit(df, y)
     return run
+
+def fit(pipeline, df, y):
+    pipeline.fit(df, y)
+    return pipeline

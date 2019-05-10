@@ -12,6 +12,10 @@ tensorflow = "*"
 scikit-learn = "*"
 validation = "*"
 numpy = "*"
+pd = "*"
+pandas = "*"
+matplotlib = "*"
+seaborn = "*"
 
 [requires]
 python_version = "3.7"
