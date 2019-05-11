@@ -7,13 +7,14 @@ from src.main.population import populate, test, model_decision
 from src.main.train import algorithms, train, validator, fit
 from termcolor import colored
 import matplotlib.pyplot as plt
-
-requirements = [30, 40]
-# requirements = [10, 20, 30, 40]
-attempts = 50
+import seaborn as sns
+# requirements = [30, 40]
+requirements = [10, 20, 30, 40]
+attempts = 100
 
 info = {}
 metrics = {}
+ponct = {}
 for alg in algorithms:
     info[alg["name"]] = {
         "points": [],
@@ -25,6 +26,7 @@ for alg in algorithms:
         "recall": [],
         "f_score": [],
     }
+    ponct[alg["name"]] = []
 
 for i in range(attempts):
     print(colored("Attempt: " + str(i + 1) + "\n", "red", attrs=["reverse", "bold"]))
@@ -55,6 +57,8 @@ for i in range(attempts):
             print("F-Score: %.2f" % results[3])
 
             all_points.append(points)
+            if req == 40:
+                ponct[name] = ponct[name] + all_points
             all_results.append(results)
 
         info[alg["name"]]["points"].append(all_points)
@@ -117,6 +121,14 @@ for metric in ["acc", "precision", "recall", "f_score"]:
     plt.xlabel("Pontuação mínima para treinamento")
     plt.ylabel(metric_d[metric])
 
+plt.figure()
+axes = []
+for alg in algorithms:
+    name = alg["name"]
+    axes.append(sns.distplot(ponct[name], bins=5, label=name))
+plt.legend(handles=axes)
+plt.xlabel("Pontuação mínima para treinamento")
+plt.ylabel("Pontuação")
 plt.show()
 
 

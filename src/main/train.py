@@ -4,15 +4,10 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import MultinomialNB, GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 import validation
 
 algorithms = [
-    # {
-    #     "name": "Naive Bayes",
-    #     "parameters": {},
-    #     "algorithm": GaussianNB()
-    # },
     # {
     #     "name": "KNN",
     #     "parameters": {
@@ -20,13 +15,18 @@ algorithms = [
     #     },
     #     "algorithm": KNeighborsClassifier(n_jobs=-1)
     # },
-    # {
-    #     "name": "Árvore de Decisão",
-    #     "parameters": {
-    #         'clf__criterion': ['entropy'],
-    #     },
-    #     "algorithm": DecisionTreeClassifier()
-    # },
+    {
+        "name": "Naive Bayes",
+        "parameters": {},
+        "algorithm": GaussianNB()
+    },
+    {
+        "name": "Árvore de Decisão",
+        "parameters": {
+            'clf__criterion': ['entropy'],
+        },
+        "algorithm": DecisionTreeRegressor()
+    },
     {
         "name": "Regressão Linear",
         "algorithm": LinearRegression()

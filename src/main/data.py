@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from src.main.population import populate
 from scipy.stats import zscore
-
+import seaborn as sns
 
 def save_data(requirements, multiplier):
     for req in requirements:
@@ -32,7 +32,6 @@ def save_data(requirements, multiplier):
         })
 
         columns = ["position", "velocity", "angle", "pole_velocity"]
-        # df = df[df.apply(lambda row: abs(row["position"]) < 0.5 and abs(row["velocity"]) < 0.5 and abs(row["angle"]) < 0.5 and abs(row["pole_velocity"]) < 0.5, axis=1)]
         # print(len(df))
         # sleep(1)
         # for column in columns:
