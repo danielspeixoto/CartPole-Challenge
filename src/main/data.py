@@ -1,4 +1,6 @@
 import pickle
+from time import sleep
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -6,10 +8,10 @@ from src.main.population import populate
 from scipy.stats import zscore
 
 
-def save_data(requirements, max_results):
+def save_data(requirements, multiplier):
     for req in requirements:
         print("Populating, accepting scores >= " + str(req))
-        x, y, scores = populate(max_results=max_results, requirement=req)
+        x, y, scores = populate(max_results=multiplier, requirement=req, remove=5)
 
         position = []
         velocity = []
@@ -30,11 +32,16 @@ def save_data(requirements, max_results):
         })
 
         columns = ["position", "velocity", "angle", "pole_velocity"]
-        for column in columns:
-            z_column = column + "_zscore"
-            df[z_column] = zscore(df[column])
-            df = df[df.apply(lambda x: -2.2 <= x[z_column] <= 2.2, axis=1)]
-
+        # df = df[df.apply(lambda row: abs(row["position"]) < 0.5 and abs(row["velocity"]) < 0.5 and abs(row["angle"]) < 0.5 and abs(row["pole_velocity"]) < 0.5, axis=1)]
+        # print(len(df))
+        # sleep(1)
+        # for column in columns:
+        #     plt.figure()
+        #     # z_column = column + "_zscore"
+        #     # df[z_column] = zscore(df[column])
+        #     sns.distplot(df[column].values)
+        # plt.show()
+        # exit(1)
 
         new_x = []
         new_y = []

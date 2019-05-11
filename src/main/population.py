@@ -44,7 +44,7 @@ def game(decide, visualize=False):
 
     return memory, score
 
-def populate(decide=random_decision(env), requirement=50, max_results=-1):
+def populate(decide=random_decision(env), requirement=50, max_results=-1, remove=0):
     global_score = 0
     x = []
     y = []
@@ -60,12 +60,14 @@ def populate(decide=random_decision(env), requirement=50, max_results=-1):
             print("Num of games: " + str(games))
             print("Results size: " + str(len(y)))
         if score >= requirement:
-            for episode in memory:
-                x.append(episode[0])
-                y.append(episode[1])
-                if len(y) == max_results:
-                    done = True
-                    break
+            iterations = max(len(memory) - remove, 0)
+            if iterations != 0:
+                for episode in range(iterations):
+                    x.append(memory[episode][0])
+                    y.append(memory[episode][1])
+                    if len(y) == max_results:
+                        done = True
+                        break
 
     average_score = global_score / games
 
